@@ -12,7 +12,20 @@ students = [
     {'first_name': 'Маша'},
     {'first_name': 'Петя'},
 ]
-# ???
+
+names = {}
+
+for student in students:
+    if student['first_name'] in names.keys():
+        names[student['first_name']] += 1
+    else:
+        names[student['first_name']] = 1
+
+for i, v in names.items():
+    print(f"{i}: {v}")
+
+
+
 
 
 # Задание 2
@@ -92,4 +105,3 @@ is_male = {
     'Миша': True,
 }
 # ???
-

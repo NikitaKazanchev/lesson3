@@ -1,39 +1,30 @@
-# Задание 1
-# Необходимо вывести имена всех учеников из списка с новой строки
-
 names = ['Оля', 'Петя', 'Вася', 'Маша']
 for names_list in names:
     print(names_list)
 
 
-# Задание 2
-# Необходимо вывести имена всех учеников из списка, рядом с именем показать количество букв в нём
-# Пример вывода:
-# Оля: 3
-# Петя: 4
 
 names = ['Оля', 'Петя', 'Вася', 'Маша']
 for names_list in names:
     print(f"{names_list}: {len(names_list)}")
 
 
-# Задание 3
-# Необходимо вывести имена всех учеников из списка, рядом с именем вывести пол ученика
 
 is_male = {
-    'Оля': False,  # если False, то пол женский
-    'Петя': True,  # если True, то пол мужской
+    'Оля': False,  
+    'Петя': True,  
     'Вася': True,
     'Маша': False,
 }
 names = ['Оля', 'Петя', 'Вася', 'Маша']
 
-for names_list in is_male.items():
-    if False in names_list:
-        print("Пол женский")
+for name in names:
+    if name in is_male:
+        if is_male[name] == False:
+            print("пол женский")
+        else:
+            print("пол мужской")   
 
-    else:
-        print("Пол мужской")         
 
 # Задание 4
 # Даны группу учеников. Нужно вывести количество групп и для каждой группы – количество учеников в ней
@@ -47,11 +38,10 @@ groups = [
     ['Вася', 'Маша', 'Саша', 'Женя'],
     ['Оля', 'Петя', 'Гриша'],
 ]
-number_of_groups = 0
-for list_groups in groups:
-    number_of_groups += 1
-    print(f"Группа {number_of_groups}: {len(list_groups)} ученика.")
-print(f"Всего {number_of_groups} группы")
+
+print(f"Всего {len(groups)} группы")
+for index, value in enumerate(groups,1):
+    print(f"Группа {index}: {len(value)} ученика")
 
 # Задание 5
 # Для каждой пары учеников нужно с новой строки перечислить учеников, которые в неё входят
@@ -64,8 +54,7 @@ groups = [
     ['Оля', 'Петя', 'Гриша'],
     ['Вася', 'Маша', 'Саша', 'Женя'],
 ]
-number_of_groups = 0
-for list_groups in groups:
-    number_of_groups += 1
-    students = " ".join(list_groups)
-    print(f"Группа {number_of_groups}: {students}")
+
+for index, value in enumerate(groups,1):
+    students = ", ".join(value)
+    print(f"Группа {index}: {students}")
