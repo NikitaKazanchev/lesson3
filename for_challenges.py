@@ -2,7 +2,8 @@
 # Необходимо вывести имена всех учеников из списка с новой строки
 
 names = ['Оля', 'Петя', 'Вася', 'Маша']
-# ???
+for names_list in names:
+    print(names_list)
 
 
 # Задание 2
@@ -12,7 +13,8 @@ names = ['Оля', 'Петя', 'Вася', 'Маша']
 # Петя: 4
 
 names = ['Оля', 'Петя', 'Вася', 'Маша']
-# ???
+for names_list in names:
+    print(f"{names_list}: {len(names_list)}")
 
 
 # Задание 3
@@ -25,8 +27,13 @@ is_male = {
     'Маша': False,
 }
 names = ['Оля', 'Петя', 'Вася', 'Маша']
-# ???
 
+for names_list in is_male.items():
+    if False in names_list:
+        print("Пол женский")
+
+    else:
+        print("Пол мужской")         
 
 # Задание 4
 # Даны группу учеников. Нужно вывести количество групп и для каждой группы – количество учеников в ней
@@ -40,8 +47,11 @@ groups = [
     ['Вася', 'Маша', 'Саша', 'Женя'],
     ['Оля', 'Петя', 'Гриша'],
 ]
-# ???
-
+number_of_groups = 0
+for list_groups in groups:
+    number_of_groups += 1
+    print(f"Группа {number_of_groups}: {len(list_groups)} ученика.")
+print(f"Всего {number_of_groups} группы")
 
 # Задание 5
 # Для каждой пары учеников нужно с новой строки перечислить учеников, которые в неё входят
@@ -54,4 +64,8 @@ groups = [
     ['Оля', 'Петя', 'Гриша'],
     ['Вася', 'Маша', 'Саша', 'Женя'],
 ]
-# ???
+number_of_groups = 0
+for list_groups in groups:
+    number_of_groups += 1
+    students = " ".join(list_groups)
+    print(f"Группа {number_of_groups}: {students}")
