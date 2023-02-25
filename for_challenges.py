@@ -19,11 +19,10 @@ is_male = {
 names = ['Оля', 'Петя', 'Вася', 'Маша']
 
 for name in names:
-    if name in is_male:
-        if is_male[name] == False:
-            print("пол женский")
-        else:
-            print("пол мужской")   
+    if is_male[name]:
+        print("пол мужской")
+    else:
+        print("пол женский")   
 
 
 # Задание 4
@@ -40,7 +39,7 @@ groups = [
 ]
 
 print(f"Всего {len(groups)} группы")
-for index, value in enumerate(groups,1):
+for index, value in enumerate(groups, 1):
     print(f"Группа {index}: {len(value)} ученика")
 
 # Задание 5

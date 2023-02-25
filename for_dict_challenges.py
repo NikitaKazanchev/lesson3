@@ -5,24 +5,24 @@
 # Маша: 2
 # Петя: 2
 
-students = [
-    {'first_name': 'Вася'},
-    {'first_name': 'Петя'},
-    {'first_name': 'Маша'},
-    {'first_name': 'Маша'},
-    {'first_name': 'Петя'},
-]
+# students = [
+#     {'first_name': 'Вася'},
+#     {'first_name': 'Петя'},
+#     {'first_name': 'Маша'},
+#     {'first_name': 'Маша'},
+#     {'first_name': 'Петя'},
+# ]
 
-names = {}
+# names = {}
 
-for student in students:
-    if student['first_name'] in names.keys():
-        names[student['first_name']] += 1
-    else:
-        names[student['first_name']] = 1
+# for student in students:
+#     if student['first_name'] in names.keys():
+#         names[student['first_name']] += 1
+#     else:
+#         names[student['first_name']] = 1
 
-for i, v in names.items():
-    print(f"{i}: {v}")
+# for i, v in names.items():
+#     print(f"{i}: {v}")
 
 
 
@@ -39,7 +39,14 @@ students = [
     {'first_name': 'Маша'},
     {'first_name': 'Оля'},
 ]
-# ???
+
+name = {}
+
+for student in students:
+    if student['first_name'] not in name.keys():
+        name += student
+print(name)
+        
 
 
 # Задание 3
