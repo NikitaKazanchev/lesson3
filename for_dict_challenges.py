@@ -44,8 +44,8 @@ name = {}
 
 for student in students:
     if student['first_name'] not in name.keys():
-        name += student
-print(name)
+        name = student
+        print(name)
         
 
 
