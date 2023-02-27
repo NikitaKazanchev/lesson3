@@ -54,6 +54,6 @@ groups = [
     ['Вася', 'Маша', 'Саша', 'Женя'],
 ]
 
-for index, value in enumerate(groups,1):
+for index, value in enumerate(groups, 1):
     students = ", ".join(value)
     print(f"Группа {index}: {students}")
