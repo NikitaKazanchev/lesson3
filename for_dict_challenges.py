@@ -5,24 +5,24 @@
 # Маша: 2
 # Петя: 2
 
-# students = [
-#     {'first_name': 'Вася'},
-#     {'first_name': 'Петя'},
-#     {'first_name': 'Маша'},
-#     {'first_name': 'Маша'},
-#     {'first_name': 'Петя'},
-# ]
+students = [
+    {'first_name': 'Вася'},
+    {'first_name': 'Петя'},
+    {'first_name': 'Маша'},
+    {'first_name': 'Маша'},
+    {'first_name': 'Петя'},
+]
 
-# names = {}
+names = {}
 
-# for student in students:
-#     if student['first_name'] in names.keys():
-#         names[student['first_name']] += 1
-#     else:
-#         names[student['first_name']] = 1
+for student in students:
+    if student['first_name'] in names.keys():
+        names[student['first_name']] += 1
+    else:
+        names[student['first_name']] = 1
 
-# for i, v in names.items():
-#     print(f"{i}: {v}")
+for i, v in names.items():
+    print(f"{i}: {v}")
 
 
 
@@ -40,14 +40,14 @@ students = [
     {'first_name': 'Оля'},
 ]
 
-name = {}
-
+names = []
+name = []
 for student in students:
-    if student['first_name'] not in name.keys():
-        name = student
-        print(name)
-        
-
+    names.append(student['first_name'])
+    for names1 in names:
+        if names.count(names1) > 1:
+            name.append(names1)
+print('Самое частое имя среди учеников:', ' '.join(set(name)))
 
 # Задание 3
 # Есть список учеников в нескольких классах, нужно вывести самое частое имя в каждом классе.
@@ -71,9 +71,21 @@ school_students = [
         {'first_name': 'Саша'},
     ],
 ]
-# ???
 
 
+for students in school_students:
+    names = []
+    name =[]
+    room_class = 0
+    for student in students:
+        room_class += 1
+        names.append(student['first_name'])
+        for names1 in names:
+            if names.count(names1) > 1:
+                name.append(names1)
+    print(f'Самое частое имя в классе {room_class -1}: {set(name)}')
+    
+    
 # Задание 4
 # Для каждого класса нужно вывести количество девочек и мальчиков в нём.
 # Пример вывода:
