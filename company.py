@@ -38,52 +38,46 @@ departments = [
     },
 ]
 
-
+# 1. Вывести названия всех отделов
 for department in departments:
     print(department["title"])
     
 
+# 2. Вывести имена всех сотрудников компании.
 for department in departments:
     for name in department["employers"]:
         print(name["first_name"])
 
-
+# 3. Вывести имена всех сотрудников компании с указанием отдела, в котором они работают.
 for department in departments:
-    employee_position = {}
     for name in department["employers"]:
-        employee_position[name["first_name"]] = department["title"]
-    print(employee_position)
+        print( name["first_name"], department["title"])
+    
 
 
+# 4. Вывести имена всех сотрудников компании, которые получают больше 100к.
 for department in departments:
-    big_salary = []
     for name in department["employers"]:
         if name["salary_rub"] > 100000:
-            big_salary.append(name["first_name"])
-    print(big_salary)    
+            print(name["first_name"])
     
-# Вариант 1
-for department in departments:
-    a_small_salary = []
-    for name in department["employers"]:
-        if name["salary_rub"] < 80000:
-            a_small_salary.append(name["position"])
-    print(a_small_salary)
 
-# Вариант 2
+# 5. Вывести позиции, на которых люди получают меньше 80к (можно с повторениями).
 for department in departments:
     for name in department["employers"]:
         if name["salary_rub"] < 80000:
             print(name["position"])
 
 
+# 6. Посчитать, сколько денег в месяц уходит на каждый отдел – и вывести вместе с названием отдела
 for department in departments:
-    sum_money = 0
+    total_salary = 0
     for name in department["employers"]:
-        sum_money += name["salary_rub"]
-    print(department["title"], sum_money)
+        total_salary += name["salary_rub"]
+    print(department["title"], total_salary)
 
 
+# 7. Вывести названия отделов с указанием минимальной зарплаты в нём.
 for department in departments:
     salaries = []
     for name in department["employers"]:
@@ -91,21 +85,30 @@ for department in departments:
     print(f'Минимальной зарплаты {department["title"]} {min(salaries)}')
 
 
+# 8. Вывести названия отделов с указанием минимальной, средней и максимальной зарплаты в нём.
 for department in departments:
     salaries = []
     sum_money = 0
     for name in department["employers"]:
         salaries.append(name["salary_rub"])
         sum_money += name["salary_rub"]
-    print(f'{department["title"]} минимальная зарплата {min(salaries)}, среднаяя зарплата {sum_money / len(department["employers"])}, максимальная зарплата {max(salaries)}')
+    min_wage = min(salaries)
+    max_wage = max(salaries)
+    average_salary = sum_money / len(department["employers"])
+    print(f'{department["title"]} минимальная {min_wage}, среднаяя {average_salary}, максимальная {max_wage}, зарплаты.')
 
+
+# 9. Вывести среднюю зарплату по всей компании.
 sum_money = 0
+total_employees = 0
 for department in departments:
     for name in department["employers"]:
         sum_money += name["salary_rub"]
-print(f'Cреднюю зарплату по всей компании {sum_money}')
+        total_employees += 1
+print(f'{sum_money / total_employees} средняя зарплата по всей компании')
 
 
+# 10. Вывести названия должностей, которые получают больше 90к без повторений.
 positions = []
 for department in departments:
     for name in department["employers"]:
@@ -114,22 +117,18 @@ for department in departments:
 print(' '.join(set(positions)))
 
 
-girls = ("Michelle", "Nicole", "Christina", "Caitlin")
+# 11. Посчитать среднюю зарплату по каждому отделу среди девушек (их зовут Мишель, Николь, Кристина и Кейтлин).
+girls = {"Michelle", "Nicole", "Christina", "Caitlin"}
 for department in departments:
     average_salary = []
     for name in department["employers"]:
         if name["first_name"] in girls:
             average_salary.append(name["salary_rub"])
-    print(f'Средняя зарплата девушек {department["title"]} {round(sum(average_salary)/len(average_salary), 2)}')
+    average_salary_girls = round(sum(average_salary)/len(average_salary), 2)      
+    print(f'Средняя зарплата девушек {department["title"]} {average_salary_girls}')
 
 
-vowels = set("aeiouy")
-for department in departments:
-    for name in department["employers"]:
-        if name["last_name"][-1] in vowels:
-            print(f'Люди, чьи фамилии заканчиваются на гласную букву {name["first_name"]}')
-
-
+# 12. Вывести без повторений имена людей, чьи фамилии заканчиваются на гласную букву.
 vowels = set("aeiouy")
 employee_name = []
 for department in departments:
