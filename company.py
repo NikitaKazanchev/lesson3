@@ -136,3 +136,13 @@ for department in departments:
         if name["last_name"][-1] in vowels:
             employee_name.append(name["first_name"])
 print("Люди, чьи фамилии заканчиваются на гласную букву", ' '.join(employee_name))
+
+
+vowels = ("a", "e", "i", "o", "u", "y")
+employee_name = []
+for department in departments:
+    for name in department["employers"]:
+        employee_name.append(name["last_name"])
+        string_of_surnames = ' '.join(employee_name)
+        if string_of_surnames.endswith(vowels):
+            print("Человек, чья фамилия заканчиваются на гласную букву", name["first_name"])
