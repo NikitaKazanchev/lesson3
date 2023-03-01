@@ -16,13 +16,13 @@ students = [
 names = {}
 
 for student in students:
-    if student['first_name'] in names.keys():
+    if student['first_name'] in names:
         names[student['first_name']] += 1
     else:
         names[student['first_name']] = 1
 
-for i, v in names.items():
-    print(f"{i}: {v}")
+for index, value in names.items():
+    print(f"{index}: {value}") 
 
 
 
@@ -40,14 +40,17 @@ students = [
     {'first_name': 'Оля'},
 ]
 
-names = []
-name = []
+names = {}
+
 for student in students:
-    names.append(student['first_name'])
-    for names1 in names:
-        if names.count(names1) > 1:
-            name.append(names1)
-print('Самое частое имя среди учеников:', ' '.join(set(name)))
+    if student['first_name'] in names:
+        names[student['first_name']] += 1
+    else:
+        names[student['first_name']] = 1
+recurring_name = max(names, key=names.get)
+print(f"Самое частое имя среди учеников: {recurring_name}") 
+    
+    
 
 # Задание 3
 # Есть список учеников в нескольких классах, нужно вывести самое частое имя в каждом классе.
@@ -74,16 +77,16 @@ school_students = [
 
 
 for students in school_students:
-    names = []
-    name =[]
-    room_class = 0
+    names = {}
+    for index, value in enumerate(students):
+        class_number = index
     for student in students:
-        room_class += 1
-        names.append(student['first_name'])
-        for names1 in names:
-            if names.count(names1) > 1:
-                name.append(names1)
-    print(f'Самое частое имя в классе {room_class -1}: {set(name)}')
+        if student['first_name'] in names:
+            names[student['first_name']] += 1
+        else:
+            names[student['first_name']] = 1
+    recurring_name = max(names, key=names.get)
+    print(f'Самое частое имя в классе {class_number}: {recurring_name}')
     
     
 # Задание 4
@@ -127,6 +130,7 @@ for classes in school:
 school = [
     {'class': '2a', 'students': [{'first_name': 'Маша'}, {'first_name': 'Оля'}]},
     {'class': '3c', 'students': [{'first_name': 'Олег'}, {'first_name': 'Миша'}]},
+    {'class': '4d', 'students': [{'first_name': 'Олег'}, {'first_name': 'Миша'}, {'first_name': 'Миша'}, {'first_name': 'Миша'}]},
 ]
 is_male = {
     'Маша': False,
@@ -134,6 +138,9 @@ is_male = {
     'Олег': True,
     'Миша': True,
 }
+
+
+
 
 for classes in school:
     girls = 0
@@ -143,7 +150,3 @@ for classes in school:
             boys += 1
         else:
             girls +=1
-    if girls > boys:
-        print(f"Больше всего девочек в классе {classes['class']}")
-    else:
-        print(f"Больше всего мальчиков в классе {classes['class']}")

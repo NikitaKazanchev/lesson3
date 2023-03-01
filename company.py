@@ -88,13 +88,11 @@ for department in departments:
 # 8. Вывести названия отделов с указанием минимальной, средней и максимальной зарплаты в нём.
 for department in departments:
     salaries = []
-    sum_money = 0
     for name in department["employers"]:
         salaries.append(name["salary_rub"])
-        sum_money += name["salary_rub"]
     min_wage = min(salaries)
     max_wage = max(salaries)
-    average_salary = sum_money / len(department["employers"])
+    average_salary = sum(salaries) / len(department["employers"])
     print(f'{department["title"]} минимальная {min_wage}, среднаяя {average_salary}, максимальная {max_wage}, зарплаты.')
 
 
@@ -120,11 +118,11 @@ print(' '.join(set(positions)))
 # 11. Посчитать среднюю зарплату по каждому отделу среди девушек (их зовут Мишель, Николь, Кристина и Кейтлин).
 girls = {"Michelle", "Nicole", "Christina", "Caitlin"}
 for department in departments:
-    average_salary = []
+    salary_girls = []
     for name in department["employers"]:
         if name["first_name"] in girls:
-            average_salary.append(name["salary_rub"])
-    average_salary_girls = round(sum(average_salary)/len(average_salary), 2)      
+            salary_girls.append(name["salary_rub"])
+    average_salary_girls = round(sum(salary_girls) / len(salary_girls), 2)
     print(f'Средняя зарплата девушек {department["title"]} {average_salary_girls}')
 
 
@@ -135,14 +133,4 @@ for department in departments:
     for name in department["employers"]:
         if name["last_name"][-1] in vowels:
             employee_name.append(name["first_name"])
-print("Люди, чьи фамилии заканчиваются на гласную букву", ' '.join(employee_name))
-
-
-vowels = ("a", "e", "i", "o", "u", "y")
-employee_name = []
-for department in departments:
-    for name in department["employers"]:
-        employee_name.append(name["last_name"])
-        string_of_surnames = ' '.join(employee_name)
-        if string_of_surnames.endswith(vowels):
-            print("Человек, чья фамилия заканчиваются на гласную букву", name["first_name"])
+print("Люди, чьи фамилии заканчиваются на гласную букву", ' '.join(set((employee_name))))
