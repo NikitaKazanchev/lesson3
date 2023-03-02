@@ -78,8 +78,8 @@ school_students = [
 
 for students in school_students:
     names = {}
-    for index, value in enumerate(students):
-        class_number = index
+    for name_student, student_number in enumerate(students):
+        class_number = name_student
     for student in students:
         if student['first_name'] in names:
             names[student['first_name']] += 1
@@ -138,15 +138,22 @@ is_male = {
     'Олег': True,
     'Миша': True,
 }
-
-
-
-
+# Ну смари, ты умеешь по классу считать количество мальчиков и коилчество девочек в нём.
+#Попробуй собрать словарь, в котором классу будет соответствовать количество мальчиков в нём. Тогда поиском по этому словарю ты сможешь найти класс, в котором парней больше всего.
+#Аналогично с девушками – словарь, который маппит класс в количество девочек и макс по нему.
+boys_by_class = {}
+girls_by_class = {}
+girls = 0
+boys = 0
 for classes in school:
-    girls = 0
-    boys = 0
     for student in classes['students']:
         if is_male[student['first_name']]:
-            boys += 1
+            boys = len(classes['students'])
         else:
-            girls +=1
+            girls = len(classes['students'])
+    boys_by_class[classes['class']] = boys
+    girls_by_class[classes['class']] = girls
+class_boys = max(boys_by_class, key=boys_by_class.get)
+class_girls = max(girls_by_class, key=girls_by_class.get)
+print(f'Больше всего мальчиков в классе {class_boys}')
+print(f'Больше всего девочек в классе {class_girls}')     

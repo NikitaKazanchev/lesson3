@@ -51,7 +51,7 @@ for department in departments:
 # 3. Вывести имена всех сотрудников компании с указанием отдела, в котором они работают.
 for department in departments:
     for name in department["employers"]:
-        print( name["first_name"], department["title"])
+        print(name["first_name"], department["title"])
     
 
 
@@ -100,9 +100,9 @@ for department in departments:
 sum_money = 0
 total_employees = 0
 for department in departments:
+    total_employees += len(department["employers"])
     for name in department["employers"]:
         sum_money += name["salary_rub"]
-        total_employees += 1
 print(f'{sum_money / total_employees} средняя зарплата по всей компании')
 
 
