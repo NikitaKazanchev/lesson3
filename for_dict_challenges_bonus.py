@@ -61,14 +61,18 @@ def generate_chat_history():
     return messages
 
 
+
 if __name__ == "__main__":
 # 1. Вывести айди пользователя, который написал больше всех сообщений.   
+    number_id = {}
     for messages in generate_chat_history():
-        sum_messages = 0
-        number_messagesaaa = []
-        for text in messages["text"]:
-            sum_messages +=1
-            number_messagesaaa.append(sum_messages)
-    if sum_messages == max(number_messagesaaa):
-        print(messages["id"])
-        
+        id_users = []
+        id_users.append(messages['sent_by'])
+        for id in id_users:
+            if id in number_id:
+                number_id[id] += 1
+            else:
+                number_id[id] = 1
+    max_messages = max(number_id, key=number_id.get)
+    print(number_id) # Все номера id с количеством сообщений
+    print(max_messages) # id с максимальным количеством сообщений
