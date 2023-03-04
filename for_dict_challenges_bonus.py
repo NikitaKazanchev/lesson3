@@ -71,28 +71,26 @@ if __name__ == "__main__":
         else:
             number_of_messages_by_id[message['sent_by']] = 1
     max_messages = max(number_of_messages_by_id, key=number_of_messages_by_id.get)
-    print(number_of_messages_by_id) # Все номера id с количеством сообщений
+    #print(number_of_messages_by_id) # Все номера id с количеством сообщений
     print(max_messages) # id с максимальным количеством сообщений
 
 
 # 2. Вывести айди пользователя, на сообщения которого больше всего отвечали.
-    # number_id = {}
-    # for messages in generate_chat_history():
-    #     id_users = []
-    #     list_id = []
-    #     users = []
-    #     id_users.append(messages['reply_for'])
-    #     list_id.append(messages['id'])
-    #     for id in list_id:
-    #         break
-    #     for the_answers in id_users:
-    #         if the_answers in number_id:
-    #             number_id[the_answers] += 1
-    #         else:
-    #             number_id[the_answers] = 1
-    # a = number_id.pop('None')
-    # print(number_id)     НЕ ПРОВЕРЯТЬ ПОКА ТОЛЬКО РУЧУ ЧТО И КАК ))))
-         
+    number_of_responses_by_id = {}
+    sender_user_id = {}
+    for message in generate_chat_history():
+        if message["reply_for"] in number_of_responses_by_id and message["reply_for"] != None:
+            number_of_responses_by_id[message["reply_for"]] += 1
+        else:
+            number_of_responses_by_id[message["reply_for"]] = 1
+        max_messages = max(number_of_responses_by_id, key=number_of_responses_by_id.get)
+        sender_user_id[message['id']] = message['sent_by']
+    for id,user_id in sender_user_id.items():
+        if max_messages == id:
+            print(user_id)
+            
+
+               
             
 
 
