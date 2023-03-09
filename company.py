@@ -50,7 +50,7 @@ departments = [
     },
 ]
 
-tesax = [
+taxes = [
     {"department": None, "name": "vat", "value_percents": 13},
     {"department": "IT department", "name": "hiring", "value_percents": 6},
     {"department": "BizDev Department", "name": "sales", "value_percents": 20},
@@ -155,25 +155,34 @@ tesax = [
 
 
 # 13. Вывести список отделов с суммарным налогом на сотрудников этого отдела.
-department_None = {}
-department_matches = {}
+total_taxes_when_None = {}
+total_tax_in_case_of_a_match = {}
+list_department = []
 for department in departments:
-    sum_money = 0
+    total_salary = 0
+    list_department.append(department['title'])
     for name in department["employers"]:
-        sum_money += name["salary_rub"]
-            
-    for tax in tesax:
-        if department['title'] == tax['department']:
-            department_matches[department['title']] = sum_money  * (tesax[0]['value_percents'] + tesax[1]['value_percents']) / 100
-        else:
-            department_None[department['title']] = sum_money  * tesax[0]['value_percents'] / 100
-print(department_matches)
-print(department_None)
-                 
+        total_salary += name["salary_rub"]
+        
+    for tax in taxes:
+        if tax["department"] is None:
+            total_taxes_when_None[department["title"]] = total_salary * tax['value_percents'] / 100
+        elif tax['department'] in list_department:
+            total_tax_in_case_of_a_match[department["title"]]= total_salary * tax['value_percents'] / 100
+    
+for department_name, total_tax in total_taxes_when_None.items():
+    if department_name in total_tax_in_case_of_a_match:
+        total_tax_in_case_of_a_match[department_name] += total_tax
+print(f'Cуммарным налогом {total_tax_in_case_of_a_match}')
+print(f'Cуммарным налогом {total_taxes_when_None}')
+    
+
+#14. Вывести список всех сотредников с указанием зарплаты "на руки" и зарплаты с учётом налогов.
+
+                    
 
         
 #Теперь вам пригодится ещё список taxes, в котором хранится информация о налогах на сотрудников из разных департаметов.
 #Если department None, значит, этот налог применяется ко всем сотрудникам компании.
 #Иначе он применяется только к сотрудникам департмента, название которого совпадает с тем, что записано по ключу department.
 #К одному сотруднику может применяться несколько налогов.
-#13. Вывести список отделов с суммарным налогом на сотрудников этого отдела.
