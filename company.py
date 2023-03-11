@@ -155,61 +155,120 @@ taxes = [
 
 
 # 13. Вывести список отделов с суммарным налогом на сотрудников этого отдела.
-total_taxes_when_None = {}
-total_tax_in_case_of_a_match = {}
-departments_of_the_organization = []
-for department in departments:
-    total_salary = 0
-    departments_of_the_organization.append(department['title'])
-    for name in department["employers"]:
-        total_salary += name["salary_rub"]
+# total_taxes_when_None = {}
+# total_tax_in_case_of_a_match = {}
+# departments_of_the_organization = []
+# for department in departments:
+#     total_salary = 0
+#     departments_of_the_organization.append(department['title'])
+#     for name in department["employers"]:
+#         total_salary += name["salary_rub"]
         
-    for tax in taxes:
-        if tax["department"] is None:
-            total_taxes_when_None[department["title"]] = total_salary * tax['value_percents'] / 100
-        elif tax['department'] in departments_of_the_organization:
-            total_tax_in_case_of_a_match[department["title"]] = total_salary * tax['value_percents'] / 100
+#     for tax in taxes:
+#         if tax["department"] is None:
+#             total_taxes_when_None[department["title"]] = total_salary * tax['value_percents'] / 100
+#         elif tax['department'] in departments_of_the_organization:
+#             total_tax_in_case_of_a_match[department["title"]] = total_salary * tax['value_percents'] / 100
     
-for department_name, total_tax in total_taxes_when_None.items():
-    if department_name in total_tax_in_case_of_a_match:
-        total_tax_in_case_of_a_match[department_name] += total_tax
-print(f'Cуммарным налогом {total_tax_in_case_of_a_match}')
-print(f'Cуммарным налогом {total_taxes_when_None}')
+# for department_name, total_tax in total_taxes_when_None.items():
+#     if department_name in total_tax_in_case_of_a_match:
+#         total_tax_in_case_of_a_match[department_name] += total_tax
+# print(f'Cуммарным налогом {total_tax_in_case_of_a_match}')
+# print(f'Cуммарным налогом {total_taxes_when_None}')
     
 
-#14. Вывести список всех сотредников с указанием зарплаты "на руки" и зарплаты с учётом налогов.
+# #14. Вывести список всех сотредников с указанием зарплаты "на руки" и зарплаты с учётом налогов.
 
-list_department = []
-total_tax_in_case_of_a_match = {}
+# departments_of_the_organization = []
+# tax_in_case_of_a_match = {}
+# for department in departments:
+#     departments_of_the_organization.append(department['title'])
+#     taxes_when_None = {}
+#     employee_salaries = {}
+#     for name in department["employers"]:
+#         employee_salaries[name['first_name']] = name['salary_rub']
+        
+#         for tax in taxes:
+#             if tax["department"] is None:
+#                 taxes_when_None[name['first_name']] = name['salary_rub'] - name['salary_rub'] * (tax['value_percents'] / 100)
+#             elif tax['department'] in departments_of_the_organization:
+#                 tax_in_case_of_a_match[name['first_name']] = name['salary_rub'] - name['salary_rub'] * (tax['value_percents'] / 100)
+#     print(f'Pарплаты с учётом налогов {department["title"]} {taxes_when_None}')
+            
+#     for department_name, total_tax in taxes_when_None.items():
+#         if department_name in tax_in_case_of_a_match:
+#             tax_in_case_of_a_match[department_name] += total_tax
+        
+#     for department_name, total_tax in employee_salaries.items():
+#         if department_name in tax_in_case_of_a_match:
+#             tax_in_case_of_a_match[department_name] -= total_tax
+
+# print(f'Pарплаты с учётом налогов {department["title"]} {tax_in_case_of_a_match}')
+       
+    
+#16. Вывести список отделов, отсортированный по месячной налоговой нагрузки.   
+
+#17. Вывести всех сотрудников, за которых компания платит больше 100к налогов в год.
+departments_of_the_organization = []
+tax_in_case_of_a_match = {}
 for department in departments:
-    list_department.append(department['title'])
-    total_taxes_when_None = {}
+    departments_of_the_organization.append(department['title'])
+    taxes_when_None = {}
     employee_salaries = {}
     for name in department["employers"]:
         employee_salaries[name['first_name']] = name['salary_rub']
         
         for tax in taxes:
             if tax["department"] is None:
-                total_taxes_when_None[name['first_name']] = name['salary_rub'] - name['salary_rub'] * (tax['value_percents'] / 100)
-            elif tax['department'] in list_department:
-                total_tax_in_case_of_a_match[name['first_name']] = name['salary_rub'] - name['salary_rub'] * (tax['value_percents'] / 100)
-    print(f'Pарплаты с учётом налогов {department["title"]} {total_taxes_when_None}')
-            
-    for department_name, total_tax in total_taxes_when_None.items():
-        if department_name in total_tax_in_case_of_a_match:
-            total_tax_in_case_of_a_match[department_name] += total_tax
+                taxes_when_None[name['first_name']] = (name['salary_rub'] * (tax['value_percents'] / 100)) * 12
+            elif tax['department'] in departments_of_the_organization:
+                tax_in_case_of_a_match[name['first_name']] = (name['salary_rub'] * (tax['value_percents'] / 100)) * 12
         
-    for department_name, total_tax in employee_salaries.items():
-        if department_name in total_tax_in_case_of_a_match:
-            total_tax_in_case_of_a_match[department_name] -= total_tax
+    for employee_name, total_tax in taxes_when_None.items():
+        if total_tax > 100000:
+            print(f'Сотрудник {department["title"]} за которого платят больше 100к налогов: {employee_name} - {total_tax}')
+                  
+    for employee_name, total_tax in taxes_when_None.items():
+        if employee_name in tax_in_case_of_a_match:
+            tax_in_case_of_a_match[employee_name] += total_tax
+    
+    for employee_name, total_tax in tax_in_case_of_a_match.items():
+        if total_tax > 100000:
+            print(f'Сотрудник {department["title"]} за которого платят больше 100к налогов: {employee_name} - {total_tax}')
+        
+        
+#18. Вывести имя и фамилию сотрудника, за которого компания платит меньше всего налогов.
 
-print(f'Pарплаты с учётом налогов {department["title"]} {total_tax_in_case_of_a_match}')
-       
+departments_of_the_organization = []
+tax_in_case_of_a_match = {}
+for department in departments:
+    departments_of_the_organization.append(department['title'])
+    taxes_when_None = {}
+    employee_salaries = {}
+    for name in department["employers"]:
+        employee_salaries[name['first_name']] = name['salary_rub']
+        
+        for tax in taxes:
+            if tax["department"] is None:
+                taxes_when_None[name['first_name']] = name['salary_rub'] * (tax['value_percents'] / 100)
+            elif tax['department'] in departments_of_the_organization:
+                tax_in_case_of_a_match[name['first_name']] = name['salary_rub'] * (tax['value_percents'] / 100)
     
-    
-    
+    min_tax_when_None =  min(taxes_when_None)
+    worker_when_None = {}
+    for worker_min_tax in min_tax_when_None:
+        if worker_min_tax in name['first_name']:
+            worker_when_None[name['first_name']] = name['last_name']
+    print(f'{worker_when_None} c меньшим налогов в компании из {department["title"]}')
 
- #Теперь вам пригодится ещё список taxes, в котором хранится информация о налогах на сотрудников из разных департаметов.
-#Если department None, значит, этот налог применяется ко всем сотрудникам компании.
-#Иначе он применяется только к сотрудникам департмента, название которого совпадает с тем, что записано по ключу department.
-#К одному сотруднику может применяться несколько налогов.
+
+    for employee_name, total_tax in taxes_when_None.items():
+        if employee_name in tax_in_case_of_a_match:
+            tax_in_case_of_a_match[employee_name] += total_tax
+
+min_tax_in_case_of_a_match = min(tax_in_case_of_a_match)
+worker_tax_in_case_of_a_match = {}
+for worker_min_tax in min_tax_in_case_of_a_match:
+    if worker_min_tax in name['first_name']:
+        worker_tax_in_case_of_a_match[name['first_name']] = name['last_name']
+print(f'{worker_tax_in_case_of_a_match} c меньшим налогов в компании из {department["title"]}')   
