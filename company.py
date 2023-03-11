@@ -157,18 +157,18 @@ taxes = [
 # 13. Вывести список отделов с суммарным налогом на сотрудников этого отдела.
 total_taxes_when_None = {}
 total_tax_in_case_of_a_match = {}
-list_department = []
+departments_of_the_organization = []
 for department in departments:
     total_salary = 0
-    list_department.append(department['title'])
+    departments_of_the_organization.append(department['title'])
     for name in department["employers"]:
         total_salary += name["salary_rub"]
         
     for tax in taxes:
         if tax["department"] is None:
             total_taxes_when_None[department["title"]] = total_salary * tax['value_percents'] / 100
-        elif tax['department'] in list_department:
-            total_tax_in_case_of_a_match[department["title"]]= total_salary * tax['value_percents'] / 100
+        elif tax['department'] in departments_of_the_organization:
+            total_tax_in_case_of_a_match[department["title"]] = total_salary * tax['value_percents'] / 100
     
 for department_name, total_tax in total_taxes_when_None.items():
     if department_name in total_tax_in_case_of_a_match:
@@ -179,10 +179,37 @@ print(f'Cуммарным налогом {total_taxes_when_None}')
 
 #14. Вывести список всех сотредников с указанием зарплаты "на руки" и зарплаты с учётом налогов.
 
-                    
-
+list_department = []
+total_tax_in_case_of_a_match = {}
+for department in departments:
+    list_department.append(department['title'])
+    total_taxes_when_None = {}
+    employee_salaries = {}
+    for name in department["employers"]:
+        employee_salaries[name['first_name']] = name['salary_rub']
         
-#Теперь вам пригодится ещё список taxes, в котором хранится информация о налогах на сотрудников из разных департаметов.
+        for tax in taxes:
+            if tax["department"] is None:
+                total_taxes_when_None[name['first_name']] = name['salary_rub'] - name['salary_rub'] * (tax['value_percents'] / 100)
+            elif tax['department'] in list_department:
+                total_tax_in_case_of_a_match[name['first_name']] = name['salary_rub'] - name['salary_rub'] * (tax['value_percents'] / 100)
+    print(f'Pарплаты с учётом налогов {department["title"]} {total_taxes_when_None}')
+            
+    for department_name, total_tax in total_taxes_when_None.items():
+        if department_name in total_tax_in_case_of_a_match:
+            total_tax_in_case_of_a_match[department_name] += total_tax
+        
+    for department_name, total_tax in employee_salaries.items():
+        if department_name in total_tax_in_case_of_a_match:
+            total_tax_in_case_of_a_match[department_name] -= total_tax
+
+print(f'Pарплаты с учётом налогов {department["title"]} {total_tax_in_case_of_a_match}')
+       
+    
+    
+    
+
+ #Теперь вам пригодится ещё список taxes, в котором хранится информация о налогах на сотрудников из разных департаметов.
 #Если department None, значит, этот налог применяется ко всем сотрудникам компании.
 #Иначе он применяется только к сотрудникам департмента, название которого совпадает с тем, что записано по ключу department.
 #К одному сотруднику может применяться несколько налогов.
