@@ -155,120 +155,80 @@ taxes = [
 
 
 # 13. Вывести список отделов с суммарным налогом на сотрудников этого отдела.
-# total_taxes_when_None = {}
-# total_tax_in_case_of_a_match = {}
-# departments_of_the_organization = []
-# for department in departments:
-#     total_salary = 0
-#     departments_of_the_organization.append(department['title'])
-#     for name in department["employers"]:
-#         total_salary += name["salary_rub"]
-        
-#     for tax in taxes:
-#         if tax["department"] is None:
-#             total_taxes_when_None[department["title"]] = total_salary * tax['value_percents'] / 100
-#         elif tax['department'] in departments_of_the_organization:
-#             total_tax_in_case_of_a_match[department["title"]] = total_salary * tax['value_percents'] / 100
+for department in departments:
+    tax_interest = 0
+    for tax in taxes:
+        if tax['department'] is None or tax['department'] == department['title']:
+            tax_interest += tax['value_percents']
     
-# for department_name, total_tax in total_taxes_when_None.items():
-#     if department_name in total_tax_in_case_of_a_match:
-#         total_tax_in_case_of_a_match[department_name] += total_tax
-# print(f'Cуммарным налогом {total_tax_in_case_of_a_match}')
-# print(f'Cуммарным налогом {total_taxes_when_None}')
+    total_salary = 0
+    for name in department['employers']:
+        total_salary += name["salary_rub"]
+        
+    total_tax = total_salary * tax_interest // 100     
+    print(f'Суммарный налог на {department["title"]}: {total_tax}') 
     
-
-# #14. Вывести список всех сотредников с указанием зарплаты "на руки" и зарплаты с учётом налогов.
-
-# departments_of_the_organization = []
-# tax_in_case_of_a_match = {}
-# for department in departments:
-#     departments_of_the_organization.append(department['title'])
-#     taxes_when_None = {}
-#     employee_salaries = {}
-#     for name in department["employers"]:
-#         employee_salaries[name['first_name']] = name['salary_rub']
-        
-#         for tax in taxes:
-#             if tax["department"] is None:
-#                 taxes_when_None[name['first_name']] = name['salary_rub'] - name['salary_rub'] * (tax['value_percents'] / 100)
-#             elif tax['department'] in departments_of_the_organization:
-#                 tax_in_case_of_a_match[name['first_name']] = name['salary_rub'] - name['salary_rub'] * (tax['value_percents'] / 100)
-#     print(f'Pарплаты с учётом налогов {department["title"]} {taxes_when_None}')
-            
-#     for department_name, total_tax in taxes_when_None.items():
-#         if department_name in tax_in_case_of_a_match:
-#             tax_in_case_of_a_match[department_name] += total_tax
-        
-#     for department_name, total_tax in employee_salaries.items():
-#         if department_name in tax_in_case_of_a_match:
-#             tax_in_case_of_a_match[department_name] -= total_tax
-
-# print(f'Pарплаты с учётом налогов {department["title"]} {tax_in_case_of_a_match}')
-       
+    
+#14. Вывести список всех сотредников с указанием зарплаты "на руки" и зарплаты с учётом налогов.
+for department in departments:
+    salary_including_taxes = {}
+    tax_interest = 0
+    for tax in taxes:
+        if tax['department'] is None or tax['department'] == department['title']:
+            tax_interest += tax['value_percents']
+    for name in department['employers']:
+        salary_including_taxes[name['first_name']] = name['salary_rub'] - (name['salary_rub'] * tax_interest // 100)
+    print(f'Зарплаты с учётом налогов {department["title"]} {salary_including_taxes}')
+      
     
 #16. Вывести список отделов, отсортированный по месячной налоговой нагрузки.   
-
-#17. Вывести всех сотрудников, за которых компания платит больше 100к налогов в год.
-departments_of_the_organization = []
-tax_in_case_of_a_match = {}
+department_total_taxes = {}
 for department in departments:
-    departments_of_the_organization.append(department['title'])
-    taxes_when_None = {}
-    employee_salaries = {}
-    for name in department["employers"]:
-        employee_salaries[name['first_name']] = name['salary_rub']
-        
-        for tax in taxes:
-            if tax["department"] is None:
-                taxes_when_None[name['first_name']] = (name['salary_rub'] * (tax['value_percents'] / 100)) * 12
-            elif tax['department'] in departments_of_the_organization:
-                tax_in_case_of_a_match[name['first_name']] = (name['salary_rub'] * (tax['value_percents'] / 100)) * 12
-        
-    for employee_name, total_tax in taxes_when_None.items():
-        if total_tax > 100000:
-            print(f'Сотрудник {department["title"]} за которого платят больше 100к налогов: {employee_name} - {total_tax}')
-                  
-    for employee_name, total_tax in taxes_when_None.items():
-        if employee_name in tax_in_case_of_a_match:
-            tax_in_case_of_a_match[employee_name] += total_tax
+    tax_interest = 0
+    for tax in taxes:
+        if tax['department'] is None or tax['department'] == department['title']:
+            tax_interest += tax['value_percents']
+
+    for name in department['employers']:
+        department_total_taxes[department['title']] = name['salary_rub'] * tax_interest // 100
     
-    for employee_name, total_tax in tax_in_case_of_a_match.items():
+departments_names_by_total_taxes = list(sorted(
+    department_total_taxes,
+    key=department_total_taxes.get,
+    reverse = True,
+))
+for department_name in departments_names_by_total_taxes:
+    print(department_name)
+    
+#17. Вывести всех сотрудников, за которых компания платит больше 100к налогов в год.
+for department in departments:
+    salary_including_taxes = {}
+    tax_interest = 0
+    for tax in taxes:
+        if tax['department'] is None or tax['department'] == department['title']:
+            tax_interest += tax['value_percents']
+    for name in department['employers']:
+        salary_including_taxes[name['first_name']] = (name['salary_rub'] * tax_interest // 100) * 12
+        
+    for employee_name, total_tax in salary_including_taxes.items():
         if total_tax > 100000:
-            print(f'Сотрудник {department["title"]} за которого платят больше 100к налогов: {employee_name} - {total_tax}')
+            print(f'Сотрудник {employee_name} {department["title"]} за которого платят больше 100к налогов в год - {total_tax}')
         
         
 #18. Вывести имя и фамилию сотрудника, за которого компания платит меньше всего налогов.
-
-departments_of_the_organization = []
-tax_in_case_of_a_match = {}
 for department in departments:
-    departments_of_the_organization.append(department['title'])
-    taxes_when_None = {}
-    employee_salaries = {}
-    for name in department["employers"]:
-        employee_salaries[name['first_name']] = name['salary_rub']
-        
-        for tax in taxes:
-            if tax["department"] is None:
-                taxes_when_None[name['first_name']] = name['salary_rub'] * (tax['value_percents'] / 100)
-            elif tax['department'] in departments_of_the_organization:
-                tax_in_case_of_a_match[name['first_name']] = name['salary_rub'] * (tax['value_percents'] / 100)
+    salary_including_taxes = {}
+    tax_interest = 0
+    for tax in taxes:
+        if tax['department'] is None or tax['department'] == department['title']:
+            tax_interest += tax['value_percents']
+    for name in department['employers']:
+        salary_including_taxes[name['first_name']] = name['salary_rub'] * tax_interest // 100
     
-    min_tax_when_None =  min(taxes_when_None)
-    worker_when_None = {}
-    for worker_min_tax in min_tax_when_None:
+
+    min_salary_including_taxes = min(salary_including_taxes)
+    worker_salary_including_taxes = {}
+    for worker_min_tax in min_salary_including_taxes:
         if worker_min_tax in name['first_name']:
-            worker_when_None[name['first_name']] = name['last_name']
-    print(f'{worker_when_None} c меньшим налогов в компании из {department["title"]}')
-
-
-    for employee_name, total_tax in taxes_when_None.items():
-        if employee_name in tax_in_case_of_a_match:
-            tax_in_case_of_a_match[employee_name] += total_tax
-
-min_tax_in_case_of_a_match = min(tax_in_case_of_a_match)
-worker_tax_in_case_of_a_match = {}
-for worker_min_tax in min_tax_in_case_of_a_match:
-    if worker_min_tax in name['first_name']:
-        worker_tax_in_case_of_a_match[name['first_name']] = name['last_name']
-print(f'{worker_tax_in_case_of_a_match} c меньшим налогов в компании из {department["title"]}')   
+            worker_salary_including_taxes[name['first_name']] = name['last_name']
+    print(f'{worker_salary_including_taxes} c меньшим налогов в компании из {department["title"]}')  
