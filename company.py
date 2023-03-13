@@ -181,7 +181,7 @@ for department in departments:
     print(f'Зарплаты с учётом налогов {department["title"]} {salary_including_taxes}')
       
     
-#16. Вывести список отделов, отсортированный по месячной налоговой нагрузки.   
+# #16. Вывести список отделов, отсортированный по месячной налоговой нагрузки.   
 department_total_taxes = {}
 for department in departments:
     tax_interest = 0
@@ -192,15 +192,16 @@ for department in departments:
     for name in department['employers']:
         department_total_taxes[department['title']] = name['salary_rub'] * tax_interest // 100
     
-departments_names_by_total_taxes = list(sorted(
+departments_names_by_total_taxes = sorted(
     department_total_taxes,
     key=department_total_taxes.get,
     reverse = True,
-))
+)
+
 for department_name in departments_names_by_total_taxes:
     print(department_name)
     
-#17. Вывести всех сотрудников, за которых компания платит больше 100к налогов в год.
+# #17. Вывести всех сотрудников, за которых компания платит больше 100к налогов в год.
 for department in departments:
     salary_including_taxes = {}
     tax_interest = 0
@@ -208,14 +209,14 @@ for department in departments:
         if tax['department'] is None or tax['department'] == department['title']:
             tax_interest += tax['value_percents']
     for name in department['employers']:
-        salary_including_taxes[name['first_name']] = (name['salary_rub'] * tax_interest // 100) * 12
+        salary_including_taxes[name['first_name']] = name['salary_rub'] * tax_interest // 100 * 12
         
     for employee_name, total_tax in salary_including_taxes.items():
         if total_tax > 100000:
             print(f'Сотрудник {employee_name} {department["title"]} за которого платят больше 100к налогов в год - {total_tax}')
         
         
-#18. Вывести имя и фамилию сотрудника, за которого компания платит меньше всего налогов.
+# #18. Вывести имя и фамилию сотрудника, за которого компания платит меньше всего налогов.
 for department in departments:
     salary_including_taxes = {}
     tax_interest = 0
@@ -225,10 +226,6 @@ for department in departments:
     for name in department['employers']:
         salary_including_taxes[name['first_name']] = name['salary_rub'] * tax_interest // 100
     
-
-    min_salary_including_taxes = min(salary_including_taxes)
-    worker_salary_including_taxes = {}
-    for worker_min_tax in min_salary_including_taxes:
-        if worker_min_tax in name['first_name']:
-            worker_salary_including_taxes[name['first_name']] = name['last_name']
-    print(f'{worker_salary_including_taxes} c меньшим налогов в компании из {department["title"]}')  
+        
+    min_salary_including_taxes = sorted(salary_including_taxes.items(), key=lambda item: item[1])
+    print(f'{min_salary_including_taxes[0]} c меньшим налогов в компании из {department["title"]}') 
