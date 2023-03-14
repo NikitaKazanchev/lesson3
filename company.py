@@ -227,5 +227,5 @@ for department in departments:
         salary_including_taxes[name['first_name']] = name['salary_rub'] * tax_interest // 100
     
         
-    min_salary_including_taxes = sorted(salary_including_taxes.items(), key=lambda item: item[1])
-    print(f'{min_salary_including_taxes[0]} c меньшим налогов в компании из {department["title"]}') 
+    min_salary_including_taxes = min(salary_including_taxes.items(), key=lambda item: item[1])
+    print(f'{min_salary_including_taxes} c меньшим налогов в компании из {department["title"]}') 

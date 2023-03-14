@@ -64,33 +64,48 @@ def generate_chat_history():
 
 if __name__ == "__main__":
 #1. Вывести айди пользователя, который написал больше всех сообщений.   
-    number_of_messages_by_id = {}
-    for message in generate_chat_history():
-        if message['sent_by'] in number_of_messages_by_id:
-            number_of_messages_by_id[message['sent_by']] += 1
-        else:
-            number_of_messages_by_id[message['sent_by']] = 1
-    max_messages = max(number_of_messages_by_id, key=number_of_messages_by_id.get)
-    #print(number_of_messages_by_id) # Все номера id с количеством сообщений
-    print(max_messages) # id с максимальным количеством сообщений
+    # number_of_messages_by_id = {}
+    # for message in generate_chat_history():
+    #     if message['sent_by'] in number_of_messages_by_id:
+    #         number_of_messages_by_id[message['sent_by']] += 1
+    #     else:
+    #         number_of_messages_by_id[message['sent_by']] = 1
+    # max_messages = max(number_of_messages_by_id, key=number_of_messages_by_id.get)
+    # print(max_messages) # id с максимальным количеством сообщений
 
 
 # 2. Вывести айди пользователя, на сообщения которого больше всего отвечали.
-    number_of_responses_by_id = {}
-    sender_user_id = {}
+    messages_id = {}
+    repetition_counter = 0
+    number_of_repetitions = {}
     for message in generate_chat_history():
-        if message["reply_for"] in number_of_responses_by_id and message["reply_for"] != None:
-            number_of_responses_by_id[message["reply_for"]] += 1
-        else:
-            number_of_responses_by_id[message["reply_for"]] = 1
-        max_messages = max(number_of_responses_by_id, key=number_of_responses_by_id.get)
-        sender_user_id[message['id']] = message['sent_by']
-    for id,user_id in sender_user_id.items():
-        if max_messages == id:
-            print(user_id)
-            
+        messages_id[message['sent_by']] = message['id']
+        for sent_by, id in messages_id.items():
+            if id == message['reply_for']:
+                repetition_counter += 1
+                number_of_repetitions[sent_by] = repetition_counter
+    print(max(number_of_repetitions.items(), key=lambda item: item[1])[0])
 
-               
+
+#3. Вывести айди пользователей, сообщения которых видело больше всего уникальных пользователей.
+    number_of_views = {}
+    number_of_repetitions = {}
+    for message in generate_chat_history():
+        number_of_views[message['sent_by']] = len(message['seen_by'])
+        for sent_by,views in number_of_views.items():
+            if views > 3:
+                number_of_repetitions[sent_by] = views
+    print(list(number_of_repetitions.keys()))
+
+
+#4. Определить, когда в чате больше всего сообщений: утром (до 12 часов), днём (12-18 часов) или вечером (после 18 часов).
+
+    number_of_views = {}
+    number_of_repetitions = {}
+    for message in generate_chat_history():
+        print(message)    
+                
+        
             
 
 
