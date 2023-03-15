@@ -195,7 +195,7 @@ for department in departments:
 departments_names_by_total_taxes = sorted(
     department_total_taxes,
     key=department_total_taxes.get,
-    reverse = True,
+    reverse=True,
 )
 
 for department_name in departments_names_by_total_taxes:
