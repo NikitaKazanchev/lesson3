@@ -75,59 +75,71 @@ if __name__ == "__main__":
 
 
 # 2. Вывести айди пользователя, на сообщения которого больше всего отвечали.
-    
-    # посчитать количество ответов на сообщение 
-    
-    messages_id = {}
-    for message in generate_chat_history():
-        if message['reply_for'] in messages_id:
-            messages_id[message['reply_for']] += 1
-        else:
-            messages_id[message['reply_for']] = 1
-    # проверить по id сообщения к какому id пользователя оно относиться
-        number_of_repetitions = {} 
-        for i,v in messages_id.items():
-            if i == message['reply_for']:
-                number_of_repetitions[message['sent_by']] = v
-        print(number_of_repetitions)
-    # сложить значение у одинаковых ключах
-
-    # вывести максимальное число ответов       
-        
   
+    id_response = []
+    messages_and_user = {}
+    for message in generate_chat_history():
+        user_with_the_number_of_responses = {}
+        messages_and_user[message['id']] = message['sent_by']
+        id_response.append(message['reply_for'])
+        for id in id_response:
+            if id_response is None:
+                continue
+            if id in messages_and_user:
+                if messages_and_user[id] in user_with_the_number_of_responses:
+                    user_with_the_number_of_responses[messages_and_user[id]] += 1 
+                else:
+                    user_with_the_number_of_responses[messages_and_user[id]] = 1
+    
+    max_number_of_responses = max(user_with_the_number_of_responses.items(), key=lambda item: item[1])
+    print(max_number_of_responses)
+
+#3. Вывести айди пользователей, сообщения которых видело больше всего уникальных пользователей.
+    id_response = {}
+    user_and_who_viewed_the_message = {}
+    for message in generate_chat_history():
+        if message['sent_by'] in user_and_who_viewed_the_message:
+            user_and_who_viewed_the_message[message['sent_by']] += message['seen_by']
+        else:
+            user_and_who_viewed_the_message[message['sent_by']] = message['seen_by']
+    
+    for i,v in user_and_who_viewed_the_message.items():
+        id_response[i] = len(list(set(v)))
+
+    max_number_of_views = max(id_response.items(), key=lambda item: item[1])
+    print(max_number_of_views)
 
 
-# #3. Вывести айди пользователей, сообщения которых видело больше всего уникальных пользователей.
-#     number_of_views = {}
-#     number_of_repetitions = {}
-#     for message in generate_chat_history():
-#         number_of_views[message['sent_by']] = len(message['seen_by'])
-#         for sent_by,views in number_of_views.items():
-#             if views > 3:
-#                 number_of_repetitions[sent_by] = views
-#     print(list(number_of_repetitions.keys()))
 
 
-#4. Определить, когда в чате больше всего сообщений: утром (до 12 часов), днём (12-18 часов) или вечером (после 18 часов).
-    # morning = 0
-    # lunch = 0
-    # evening = 0
-    # for message in generate_chat_history():
-    #     datetime_str = message['sent_at'].time()
-    #     if        
-                
-        
-            
 
-
-#     messages = [
+# messages = [ 
 #     {
-#         "id": "efadb781-9b04-4aad-9afe-e79faef8cffb",
-#         "sent_at": datetime.datetime(2022, 10, 11, 23, 11, 11, 721),
+#         "id": 1,
 #         "sent_by": 46,  # id пользователя-отправителя
-#         "reply_for": "7b22ae19-6c58-443e-b138-e22784878581",  # id сообщение, на которое это сообщение является ответом (может быть None)
+#         "reply_for": 2,  # id сообщение, на которое это сообщение является ответом (может быть None)
 #         "seen_by": [26, 91, 71], # идентификаторы пользователей, которые видели это сообщение
+#         "text": "А когда ревью будет?",
+#     },
+#     {
+#         "id": 2,
+#         "sent_by": 50,  # id пользователя-отправителя
+#         "reply_for": 3,  # id сообщение, на которое это сообщение является ответом (может быть None)
+#         "seen_by": [4, 1, 181], # идентификаторы пользователей, которые видели это сообщение
+#         "text": "А когда ревью будет?",
+#     },
+#     {
+#         "id": 3,
+#         "sent_by": 46,  # id пользователя-отправителя
+#         "reply_for": None,  # id сообщение, на которое это сообщение является ответом (может быть None)
+#         "seen_by": [26, 21, 71, 22], # идентификаторы пользователей, которые видели это сообщение
+#         "text": "А когда ревью будет?",
+#     },
+#     {
+#         "id": 4,
+#         "sent_by": 48,  # id пользователя-отправителя
+#         "reply_for": 3,  # id сообщение, на которое это сообщение является ответом (может быть None)
+#         "seen_by": [26, 33, 71], # идентификаторы пользователей, которые видели это сообщение
 #         "text": "А когда ревью будет?",
 #     }
 # ]
-
