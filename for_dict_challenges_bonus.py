@@ -75,24 +75,23 @@ if __name__ == "__main__":
 
 
 # 2. Вывести айди пользователя, на сообщения которого больше всего отвечали.
-  
-    id_response = []
+    list_of_messages_that_have_been_answered = []
     messages_and_user = {}
+    user_with_the_number_of_responses = {}
     for message in generate_chat_history():
-        user_with_the_number_of_responses = {}
         messages_and_user[message['id']] = message['sent_by']
-        id_response.append(message['reply_for'])
-        for id in id_response:
-            if id_response is None:
-                continue
-            if id in messages_and_user:
-                if messages_and_user[id] in user_with_the_number_of_responses:
-                    user_with_the_number_of_responses[messages_and_user[id]] += 1 
-                else:
-                    user_with_the_number_of_responses[messages_and_user[id]] = 1
+        list_of_messages_that_have_been_answered.append(message['reply_for'])
+    for id_of_messages_that_have_been_answered in list_of_messages_that_have_been_answered:
+        if id_of_messages_that_have_been_answered is None:
+            continue
+        if messages_and_user[id_of_messages_that_have_been_answered] in user_with_the_number_of_responses:
+            user_with_the_number_of_responses[messages_and_user[id_of_messages_that_have_been_answered]] += 1 
+        else:
+            user_with_the_number_of_responses[messages_and_user[id_of_messages_that_have_been_answered]] = 1
     
     max_number_of_responses = max(user_with_the_number_of_responses.items(), key=lambda item: item[1])
-    print(max_number_of_responses)
+    print(f'id пользователя с наибольшим количеством ответов на его сообщения: {max_number_of_responses}')  
+
 
 #3. Вывести айди пользователей, сообщения которых видело больше всего уникальных пользователей.
     id_response = {}
@@ -103,11 +102,11 @@ if __name__ == "__main__":
         else:
             user_and_who_viewed_the_message[message['sent_by']] = message['seen_by']
     
-    for i,v in user_and_who_viewed_the_message.items():
-        id_response[i] = len(list(set(v)))
-
+    for id_user,id_who_viewed_the_message in user_and_who_viewed_the_message.items():
+        id_response[id_user] = len(list(set(id_who_viewed_the_message)))
+       
     max_number_of_views = max(id_response.items(), key=lambda item: item[1])
-    print(max_number_of_views)
+    print(f'id пользователя с наибольшим количеством просмотров его сообщения: {max_number_of_views}')
 
 
 
@@ -143,3 +142,4 @@ if __name__ == "__main__":
 #         "text": "А когда ревью будет?",
 #     }
 # ]
+
